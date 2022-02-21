@@ -27,7 +27,6 @@ public class VistaJuego extends View {
     private float aceleracionNave;          // Aumento de velocidad.
     private int vidas = 3;                  // Vidas de la nave.
     private int puntos = 0;                 // Puntuación.
-
     // Incremento estándar de giro y aceleración.
 
     private static final int PASO_GIRO_NAVE = 5;
@@ -81,11 +80,11 @@ public class VistaJuego extends View {
 
     private View vista = this;
 
-    private MediaPlayer mp;
-
     // ########################################################################################################
     //	    CONSTRUCTOR
     // ########################################################################################################
+
+    MediaPlayer mediaplayer;
 
     public VistaJuego(Context context, AttributeSet attrs) {
 
@@ -265,6 +264,7 @@ public class VistaJuego extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 disparo=true;
+
                 break;
             case MotionEvent.ACTION_MOVE:
 
@@ -288,8 +288,6 @@ public class VistaJuego extends View {
 
                 if (disparo){
                     activaMisil();
-                    //mp = MediaPlayer.create(this, R.raw.disparo);
-                    //mp.start();
                 }
                 break;
         }
@@ -329,9 +327,9 @@ public class VistaJuego extends View {
 
         try {
             if (!(misiles.isEmpty())) {
-                for (int m = 0; m < misiles.size(); m++) {          // Por cada misil.
+                for (int m = 0; m < misiles.size(); m++) {
 
-                    misiles.elementAt(m).incrementaPos(retardo);    // Se mueve.
+                    misiles.elementAt(m).incrementaPos(retardo);
 
                     for (int i = 0; i < Asteroides.size(); i++) {
                         if (misiles.elementAt(m).verificaColision(Asteroides.elementAt(i)) && (Asteroides.elementAt(i).getDrawable() == drawableAsteroide || Asteroides.elementAt(i).getDrawable() == drawableMediano || Asteroides.elementAt(i).getDrawable() == drawableChico)) {
@@ -486,6 +484,8 @@ public class VistaJuego extends View {
                 misil.setIncY(Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
 
                 misiles.add(misil);
+                mediaplayer = MediaPlayer.create(getContext(), R.raw.disparo);
+                mediaplayer.start();
 
                 try {
                     if (armamentoMejorado) {

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AlmacenPuntuacionesArray implements AlmacenPuntuaciones {
 
-    private ArrayList puntuaciones; // Array de puntuaciones.
+    private ArrayList puntuaciones;
 
     public AlmacenPuntuacionesArray() {
         puntuaciones= new ArrayList<>();
