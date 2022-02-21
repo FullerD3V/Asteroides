@@ -80,11 +80,11 @@ public class VistaJuego extends View {
 
     private View vista = this;
 
+    MediaPlayer mpDisparo, mpExplosion;
+
     // ########################################################################################################
     //	    CONSTRUCTOR
     // ########################################################################################################
-
-    MediaPlayer mediaplayer;
 
     public VistaJuego(Context context, AttributeSet attrs) {
 
@@ -96,6 +96,9 @@ public class VistaJuego extends View {
         nave = new Grafico(this, context.getResources().getDrawable(R.drawable.nave));
 
         drawableMisil = context.getResources().getDrawable(R.drawable.misil1);
+
+        mpDisparo = MediaPlayer.create(context, R.raw.disparo);
+        mpExplosion = MediaPlayer.create(context, R.raw.explosion);
 
 
         drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1);
@@ -409,7 +412,7 @@ public class VistaJuego extends View {
     }
 
     private void destruyeAsteroide(int i, int m) {
-
+        mpExplosion.start();
         boolean eraUnoGordo = false;
 
         if (Asteroides.elementAt(i).getDrawable() == drawableAsteroide) {
@@ -471,7 +474,7 @@ public class VistaJuego extends View {
     }
 
     private void activaMisil() {
-
+        mpDisparo.start();
         try {
             if (misiles.size() <= municion) {
 
@@ -484,8 +487,6 @@ public class VistaJuego extends View {
                 misil.setIncY(Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
 
                 misiles.add(misil);
-                mediaplayer = MediaPlayer.create(getContext(), R.raw.disparo);
-                mediaplayer.start();
 
                 try {
                     if (armamentoMejorado) {
