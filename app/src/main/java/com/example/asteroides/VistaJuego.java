@@ -3,6 +3,9 @@ package com.example.asteroides;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
@@ -196,6 +199,14 @@ public class VistaJuego extends View {
             fondoGameOver.dibujaGrafico(canvas);
             mensajeGameOver.dibujaGrafico(canvas);
         }
+
+        Paint pincel = new Paint();
+        pincel.setColor(Color.WHITE);
+        pincel.setStrokeWidth(4);
+        pincel.setStyle(Paint.Style.FILL);
+        pincel.setTextSize(40);
+        pincel.setTypeface(Typeface.SANS_SERIF);
+        canvas.drawText("Puntos: "+puntos, 50,100,pincel);
     }
 
     @Override public boolean onKeyDown(int codigoTecla, KeyEvent evento) {
@@ -337,8 +348,9 @@ public class VistaJuego extends View {
                     for (int i = 0; i < Asteroides.size(); i++) {
                         if (misiles.elementAt(m).verificaColision(Asteroides.elementAt(i)) && (Asteroides.elementAt(i).getDrawable() == drawableAsteroide || Asteroides.elementAt(i).getDrawable() == drawableMediano || Asteroides.elementAt(i).getDrawable() == drawableChico)) {
                             destruyeAsteroide(i, m);                // Asteroide destruido.
-                            //mp = MediaPlayer.create(this, R.raw.explosion);
-                            //mp.start();
+                            mpExplosion.seekTo(0);
+                            if(!mpExplosion.isPlaying())
+                                mpExplosion.start();
                             break;
                         }
                     }
@@ -386,10 +398,10 @@ public class VistaJuego extends View {
 
     private void destruyeAsteroide(int i) {
 
-        boolean eraUnoGordo = false;
+        boolean eraUnoGrande = false;
 
         if (Asteroides.elementAt(i).getDrawable() == drawableAsteroide) {
-            eraUnoGordo = true;
+            eraUnoGrande = true;
         }
 
         Grafico explos = new Grafico(this, drawableExplos);
@@ -402,7 +414,7 @@ public class VistaJuego extends View {
 
         new ThreadQuitarExplosion(explos).start();
 
-        if (eraUnoGordo) {
+        if (eraUnoGrande) {
             municion++;
             new ThreadNuevoAsteroide().start();
             if (Asteroides.size() < LIMITE_ASTEROIDES_GRANDES) {
@@ -412,11 +424,10 @@ public class VistaJuego extends View {
     }
 
     private void destruyeAsteroide(int i, int m) {
-        mpExplosion.start();
-        boolean eraUnoGordo = false;
+        boolean eraUnoGrande = false;
 
         if (Asteroides.elementAt(i).getDrawable() == drawableAsteroide) {
-            eraUnoGordo = true;
+            eraUnoGrande = true;
         }
 
         puntos += 10;
@@ -431,7 +442,7 @@ public class VistaJuego extends View {
         explos.setCenX(Asteroides.get(i).getCenX());
         explos.setCenY(Asteroides.get(i).getCenY());
 
-        if (eraUnoGordo) {
+        if (eraUnoGrande) {
             for (int f = 0; f < numFragmentos; f++) {
                 Grafico fragmento = new Grafico(this, drawableMediano);
                 fragmento.setIncY(Math.random() * 4 - 2);
@@ -464,7 +475,7 @@ public class VistaJuego extends View {
         new ThreadQuitarExplosion(explos).start();
 
         System.out.println(puntos);
-        if (eraUnoGordo) {
+        if (eraUnoGrande) {
             municion++;
             new ThreadNuevoAsteroide().start();
             if (Asteroides.size() < LIMITE_ASTEROIDES_GRANDES) {
@@ -474,7 +485,9 @@ public class VistaJuego extends View {
     }
 
     private void activaMisil() {
-        mpDisparo.start();
+        mpDisparo.seekTo(0);
+        if(!mpDisparo.isPlaying())
+            mpDisparo.start();
         try {
             if (misiles.size() <= municion) {
 
