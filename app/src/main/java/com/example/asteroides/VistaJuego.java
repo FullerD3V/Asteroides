@@ -39,7 +39,7 @@ public class VistaJuego extends View {
     // Misiles.
 
     private Vector <Grafico> misiles = new Vector();// Vector con los misiles en juego.
-    private int municion = 10;                      // Cantidad de misiles que se pueden disparar a la vez. Irá aumentando.
+    private int municion = 100;                      // Cantidad de misiles que se pueden disparar a la vez. Irá aumentando.
     private static int PASO_VELOCIDAD_MISIL = 20;	// Velocidad.
     private float mX=0, mY=0;                       // Coordenadas del misil.
     private boolean disparo = false;
@@ -523,6 +523,46 @@ public class VistaJuego extends View {
                         misil3.setIncY((Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)+2);
 
                         misiles.add(misil3);
+
+                        Grafico misil4 = new Grafico(this, drawableMisil);
+
+                        misil4.setCenX(nave.getCenX());
+                        misil4.setCenY(nave.getCenY());
+                        misil4.setAngulo((int) nave.getAngulo()-3);
+                        misil4.setIncX((Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)-3);
+                        misil4.setIncY((Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)-3);
+
+                        misiles.add(misil4);
+
+                        Grafico misil5 = new Grafico(this, drawableMisil);
+
+                        misil5.setCenX(nave.getCenX());
+                        misil5.setCenY(nave.getCenY());
+                        misil5.setAngulo((int) nave.getAngulo()+3);
+                        misil5.setIncX((Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)+3);
+                        misil5.setIncY((Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)+3);
+
+                        misiles.add(misil5);
+
+                        Grafico misil6 = new Grafico(this, drawableMisil);
+
+                        misil6.setCenX(nave.getCenX());
+                        misil6.setCenY(nave.getCenY());
+                        misil6.setAngulo((int) nave.getAngulo()-4);
+                        misil6.setIncX((Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)-4);
+                        misil6.setIncY((Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)-4);
+
+                        misiles.add(misil6);
+
+                        Grafico misil7 = new Grafico(this, drawableMisil);
+
+                        misil7.setCenX(nave.getCenX());
+                        misil7.setCenY(nave.getCenY());
+                        misil7.setAngulo((int) nave.getAngulo()+4);
+                        misil7.setIncX((Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)+4);
+                        misil7.setIncY((Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL)+4);
+
+                        misiles.add(misil7);
                     }
                 } catch (Exception e) {System.err.println(e.getMessage());}
 
